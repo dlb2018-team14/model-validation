@@ -2,8 +2,9 @@ from ctypes import *
 import math
 import random
 import os
+from . import Constant as const
 
-DARKNET_LIB_PATH = os.path.join(os.path.dirname(__file__), "../darknet/libdarknet.so")
+DARKNET_LIB_PATH = const.DARKNET_LIB_PATH#os.path.join(os.path.dirname(__file__), "../darknet/libdarknet.so")
 
 def sample(probs):
     s = sum(probs)

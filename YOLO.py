@@ -55,7 +55,7 @@ class YOLO:
             net_h = self.__net_size[1]
 
             # レターボックス形式に変換する
-            letter_box, st_x, st_y = self.get_letter_box(img, net_w, net_h)
+            letter_box, st_x, st_y = YOLO.get_letter_box(img, net_w, net_h)
 
             # ctypesで受け渡せる形式に変換する
             darknet_img_data = YOLO.get_darknet_img_data(letter_box)
@@ -222,4 +222,22 @@ if __name__ == "__main__":
     for r in ret:
         cv2.rectangle(img, (r[2][0], r[2][1]), (r[2][2], r[2][3]), (0,0,255))
 
-    cv2.imwrite("./test.jpg", img)
+    #cv2.imwrite("./test.jpg", img)
+
+    h, w, _ = img.shape
+    f = open("./test.txt", "w")
+    for r in ret:
+        class_id = r[0]
+        prob = r[1]        
+        rect_width = (r[2][2] - r[2][0])
+        rect_height = (r[2][3] - r[2][1])
+        center_x = (r[2][0] + int(rect_width/2))
+        center_y = (r[2][1] + int(rect_height/2))
+
+        rect_width = rect_width/float(w)
+        rect_height = rect_height/float(h)
+        center_x = center_x/float(w)
+        center_y = center_y/float(h)
+
+        f.write("{:d},{:f},{:f},{:f},{:f},{:f}\n".format(class_id, prob, center_x, center_y, rect_width, rect_height))
+    f.close()
