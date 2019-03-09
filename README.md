@@ -24,8 +24,7 @@ YOLOの学習モデルの精度を検証するプログラム群
  pip install matplotlib
  ```
 
-- プログラム本体
-- 
+- プログラム本体   
  ```
 git clone https://github.com/dlb2018-team14/model-validation
  ```
@@ -55,7 +54,7 @@ git clone https://github.com/dlb2018-team14/model-validation
 2. プログラムを実行する
 
   ```
-python ModelValidation
+python ModelValidation.py
   ```
 
 3. 出力結果
