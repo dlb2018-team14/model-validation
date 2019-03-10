@@ -35,6 +35,7 @@ class ModelValidation:
         micro_result = np.array([micro_result])
 
         for i in range(1, len(thresholds)):
+            print("Start validation with Threshold: {:.03f}".format(thresholds[i]))
             macro_tmp_result, micro_tmp_result = self.get_validation_result(thresholds[i])
             macro_result = np.concatenate((macro_result, np.array([macro_tmp_result])))
             micro_result = np.concatenate((micro_result, np.array([micro_tmp_result])))
@@ -113,21 +114,21 @@ class ModelValidation:
             for line in f:
                 line = line.strip()
 
-                tmp = line.split(",")
+                tmp = line.split(" ")
 
                 class_id = int(tmp[0])
-                prob = float(tmp[1])
-                center_x = float(tmp[2])
-                center_y = float(tmp[3])
-                width = float(tmp[4])
-                height = float(tmp[5])
+                #prob = float(tmp[1])
+                center_x = float(tmp[1])
+                center_y = float(tmp[2])
+                width = float(tmp[3])
+                height = float(tmp[4])
 
                 min_x = center_x - width/2.0
                 min_y = center_y - height/2.0
                 max_x = center_x + width/2.0
                 max_y = center_y + height/2.0
 
-                labels.append([class_id, prob, min_x, min_y, max_x, max_y])
+                labels.append([class_id, 1, min_x, min_y, max_x, max_y])
 
         return labels
 
