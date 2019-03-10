@@ -1,6 +1,6 @@
 # original
 from YOLO import YOLO
-from . import Constant as const
+import Constant as const
 
 # builtin
 import os
@@ -233,9 +233,6 @@ class ModelValidation:
 
         # 保存
         plt.savefig(output_path)
-
-        print(data)
-        print("")
 
 
 if __name__=="__main__":
