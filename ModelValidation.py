@@ -6,6 +6,7 @@ import Constant as const
 import os
 import re
 import sys
+import time
 
 # requrement
 import cv2
@@ -30,15 +31,20 @@ class ModelValidation:
             else:
                 thresholds.append(add_threshold)
 
+        print("==> Start validation with Threshold: {:.03f}".format(thresholds[0]))
+        st = time.time()
         macro_result, micro_result = self.get_validation_result(thresholds[0])
         macro_result = np.array([macro_result])
         micro_result = np.array([micro_result])
+        print("<== End Validation.({:.01f} s)".format(time.time()-st))
 
         for i in range(1, len(thresholds)):
-            print("Start validation with Threshold: {:.03f}".format(thresholds[i]))
+            print("==> Start validation with Threshold: {:.03f}".format(thresholds[i]))
+            st = time.time()
             macro_tmp_result, micro_tmp_result = self.get_validation_result(thresholds[i])
             macro_result = np.concatenate((macro_result, np.array([macro_tmp_result])))
             micro_result = np.concatenate((micro_result, np.array([micro_tmp_result])))
+            print("<== End Validation.({:.01f} s)".format(time.time()-st))
 
         return macro_result, micro_result
 
@@ -56,6 +62,7 @@ class ModelValidation:
         gt_label_count = 0
         
         test_data_num = 0
+        all_data_num = len(fns)
         for fn in fns:
             tmp = fn.split(".")
             basename = tmp[0]
@@ -67,6 +74,8 @@ class ModelValidation:
             else:
                 continue
 
+            if(test_data_num%20==0):
+                print("    progress: {:.01f}%, ({:d}/{:d})".format(test_data_num/float(all_data_num/2)*100, test_data_num, int(all_data_num/2)))
             predict_label = self.__model.detect(img, threshold)
             h, w, _ = img.shape
             predict_label = ModelValidation.convert_result_to_float(predict_label, (w, h))
