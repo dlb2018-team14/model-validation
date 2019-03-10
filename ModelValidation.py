@@ -246,11 +246,17 @@ class ModelValidation:
 
 
 if __name__=="__main__":
+    if(len(sys.argv)==2):
+        mode = sys.argv[1]
+    else:
+        mode = "slow"
+
     data_path = const.DATA_FILE_PATH
     cfg_path = const.CFG_FILE_PATH
     weight_path = const.WEIGHT_FILE_PATH
 
     test_data_dir = const.TEST_DATA_DIR_PATH
+    img_output_path = const.IMG_OUTPUT_DIR_PATH
 
     # 検証したいモデルを用意
     model = YOLO()
@@ -262,13 +268,19 @@ if __name__=="__main__":
     validater.set_model(model)
     validater.set_test_data_dir(test_data_dir)
 
-    start_threshold = 0.01
-    threshold_step = 0.05
-    end_threshold = 0.99
+    if mode == "slow":
+        start_threshold = 0.01
+        threshold_step = 0.05
+        end_threshold = 0.99
+    else:
+        start_threshold = 0.1
+        threshold_step = 0.4
+        end_threshold = 0.9
+
     macro_result, micro_result = validater.get_validation_result_with_step(threshold_step, start_threshold, end_threshold)
 
-    validater.output_plot("./macro.jpg", macro_result[:, 0:2])
-    validater.output_plot("./micro.jpg", micro_result[:, 0:2])
+    validater.output_plot(os.path.join(img_output_path, "macro.jpg"), macro_result[:, 0:2])
+    validater.output_plot(os.path.join(img_output_path, "micro.jpg"), micro_result[:, 0:2])
 
     print("Max macro F-measure: {:.4f}".format(macro_result[:, 0:2].max()))
     print("Max micro F-measure: {:.4f}".format(micro_result[:, 0:2].max()))

@@ -54,8 +54,15 @@ git clone https://github.com/dlb2018-team14/model-validation
 2. プログラムを実行する
 
   ```
-python ModelValidation.py
+python ModelValidation.py   slow
+  ```   
+  または   
   ```
+python ModelValidation.py　fast
+  ```
+
+slowでは物体として検出する閾値を0.01から0.05刻みに0.99まで11回実行します。
+fastで0.1, 0.5, 0.9の3つだけ実行します。
 
 3. 出力結果
 
