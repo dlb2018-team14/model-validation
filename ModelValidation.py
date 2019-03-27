@@ -282,6 +282,6 @@ if __name__=="__main__":
     validater.output_plot(os.path.join(img_output_path, "macro.jpg"), macro_result[:, 0:2])
     validater.output_plot(os.path.join(img_output_path, "micro.jpg"), micro_result[:, 0:2])
 
-    print("Max macro F-measure: {:.4f}".format(macro_result[:, 0:2].max()))
-    print("Max micro F-measure: {:.4f}".format(micro_result[:, 0:2].max()))
+    print("Max macro F-measure: {:.4f}, arg: {:d}".format(macro_result[:, 2].max(), macro_result[:, 2].argmax()))
+    print("Max micro F-measure: {:.4f}, arg: {:d}".format(micro_result[:, 2].max(), micro_result[:, 2].argmax()))
     
